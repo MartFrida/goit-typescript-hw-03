@@ -1,23 +1,23 @@
 class Key {
-  private signature: number;
+  private signature: number = Math.random();
   getSignature() {
-    return (this.signature = Math.random());
+    return this.signature;
   }
 }
 
 class Person {
-  person: string;
   constructor(private key: Key) {}
-  getKey() {
-    return key;
+  getKey(): Key {
+    return this.key;
   }
 }
 
 abstract class House {
-  door: boolean;
-  key: Key;
-  person: string;
-  tenants: string[];
+  public person: string;
+  protected door: boolean = false;
+  protected tenants: string[] = [];
+  constructor(protected key: Key) {}
+
   comeIn(person: Person) {
     if (this.door) {
       this.tenants.push(this.person);
@@ -27,14 +27,11 @@ abstract class House {
 }
 
 class MyHouse extends House {
-  constructor(key: Key) {
-    super();
-  }
   openDoor(keyPerson: Key) {
-    if (keyPerson === key) {
-      return true;
+    if (keyPerson.getSignature() === key.getSignature()) {
+      return (this.door = true);
     } else {
-      return false;
+      return (this.door = false);
     }
   }
 }
