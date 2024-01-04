@@ -1,26 +1,42 @@
-class MyHouse {
-  person: Person;
-  key: Key;
-  constructor(key: Key) {}
-
-  openDoor(person: Person) {
-    return person;
-  }
-  comeIn(person: Person) {
-    if (person.getKey()) {
-      return this.person;
-    }
+class Key {
+  private signature: number;
+  getSignature() {
+    return (this.signature = Math.random());
   }
 }
+
 class Person {
   person: string;
-  constructor(key: Key) {}
+  constructor(private key: Key) {}
   getKey() {
-    return person;
+    return key;
   }
 }
-class Key {
-  key: number;
+
+abstract class House {
+  door: boolean;
+  key: Key;
+  person: string;
+  tenants: string[];
+  comeIn(person: Person) {
+    if (this.door) {
+      this.tenants.push(this.person);
+    }
+  }
+  openDoor(key: Key) {}
+}
+
+class MyHouse extends House {
+  constructor(key: Key) {
+    super();
+  }
+  openDoor(keyPerson: Key) {
+    if (keyPerson === key) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 const key = new Key();
@@ -31,5 +47,3 @@ const person = new Person(key);
 house.openDoor(person.getKey());
 
 house.comeIn(person);
-
-export {};
